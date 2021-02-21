@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seon.project.mybatis.mappers.AssignMapper">
+	
+	<insert id="assignRegister" parameterType="AssignVO" >
+		insert into classroom.assign (assignName, assignDes, assignDead, classNum) 
+ 		values(#{assignName}, #{assignDes},#{assignDead},#{classNum}) 
+    </insert>
+    
+    <!-- 과제 목록 -->
+    <select id="assignList" resultType="com.seon.project.model.AssignVO">
+    	select
+    	* 
+		from classroom.assign
+		where
+		classNum = #{classNum}
+    </select>
+    
+    
+    <!-- 과제 상세 -->
+     <select id="assignDetail" resultType="com.seon.project.model.AssignVO">
+    	select
+    	*
+		from classroom.assign
+		where
+		assignName = #{assignName}
+    </select>
+    
+    <!-- 교수 마이페이지 과제 상세 -->
+     <select id="assignfileDetail" resultType="com.seon.project.model.AssignFileVO">
+    	select
+    	*
+		from classroom.assign_file
+		where
+		assignName = #{assignName}
+    </select>
+    
+    <!-- 과제 점수 주기 -->
+    <update id="assignGrade" parameterType="AssignFileVO">
+    	update 
+    	classroom.assign_file 
+    	set 
+    	assignGrade = #{assignGrade}
+   		where
+   		assignName = #{assignName} and userId=#{userId}
+    </update>
+    
+    <!-- 과제 점수 가져오기 -->
+    <select id="getGrade" resultType="com.seon.project.model.AssignFileVO">
+    	select
+    	*
+		from classroom.assign_file
+		where
+		assignName=#{assignName} and userId=#{userId}
+    </select>
+   
+   	<!-- 과제 파일 제출 -->
+    <insert id ="insertFile" parameterType="AssignFileVO">
+    	insert into 
+    	classroom.assign_file 
+    	(assignName, assignFile, userId)
+    	values
+    	(#{assignName},#{assignFile},#{userId})
+    </insert>
+    
+</mapper>

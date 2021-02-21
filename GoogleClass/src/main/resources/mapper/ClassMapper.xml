@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seon.project.mybatis.mappers.ClassMapper">
+
+	<select id="classList" resultType="com.seon.project.model.ClassVO">
+		select 
+		* 
+		from 
+		classroom.class 
+		where 
+		classNum 
+		in 
+		(select class_classNum from classroom.class_member where class_userId=#{userId})
+	</select>
+	
+	<insert id="classRegister" parameterType="ClassmemVO" >
+		insert into classroom.class_member (class_userId, class_classNum) 
+ 		values(#{class_userId}, #{class_classNum})
+    </insert>   
+    
+    <select id="classDetail" resultType="com.seon.project.model.ClassVO">
+    	select
+    	* 
+		from classroom.class
+		where
+		classNum = #{classNum}
+    </select>
+    
+    <select id="assignDetail" resultType="com.seon.project.model.AssignVO">
+    	select
+    	* 
+		from classroom.assign
+		where
+		classNum = #{classNum}
+    </select>
+    
+</mapper>

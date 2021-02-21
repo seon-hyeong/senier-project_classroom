@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seon.project.mybatis.mappers.MemberMapper">
+
+	<!-- 회원가입 -->
+	<insert id="register" parameterType="User" >
+		insert into classroom.member (userId, userPass, userName, userNum, userPhone, isMaster) 
+ 		values(#{userId},#{userPass}, #{userName}, #{userNum},#{userPhone},#{isMaster}) 
+  
+    </insert>
+    
+    <!-- 로그인 -->
+	<select id="loginUser" resultType="com.seon.project.model.User">
+		select 
+   		userId, userPass ,userName , isMaster
+ 		from 
+   		classroom.member 
+ 		where userId = #{userId} and userPass = #{userPass} 
+	</select>
+	
+	<select id="myList" resultType="com.seon.project.model.ClassVO">
+		select 
+		* 
+		from 
+		classroom.class 
+		where 
+		classNum 
+		in 
+		(select class_classNum from classroom.class_member where class_userId=#{userId})
+	</select>
+	
+	<select id="getGrade2" resultType="com.seon.project.model.AssignVO">
+    	select
+    	assignName , assignGrade
+		from classroom.assign
+		where
+		assignName = #{assignName}
+    </select>
+</mapper>
